@@ -149,13 +149,13 @@ JSR GenerateTiles		; generate pipe tiles
 
 SkipTileGen:		;
 
-JSL $01801A		; update sprite Y position
+JSL $01801A|!bank		; update sprite Y position
 
 SkipPositionUpdate:		;
 
 LDA $94
 PHA
-JSL $01B44F		; make the sprite solid
+JSL $01B44F|!bank		; make the sprite solid
 
 LDA !7FAB10,x		;
 AND #!ExtraBit		;
@@ -175,7 +175,7 @@ BCC .no_hurt
 
 PLA
 STA $94
-JSL $00F606				; > Kill the player.
+JSL $00F606|!bank				; > Kill the player.
 RTS
 
 
@@ -214,7 +214,7 @@ STA $98			; that will be generated
 LDA !14D4,x		;
 STA $99			;
 
-JSL $00BEB0		; generate Map16 tile routine
+JSL $00BEB0|!bank		; generate Map16 tile routine
 
 LDA $18B6|!Base2		;
 STA $9C			;
@@ -230,7 +230,7 @@ STA $98			;
 LDA !14D4,x		;
 STA $99			;
 
-JSL $00BEB0		;
+JSL $00BEB0|!bank		;
 
 RTS			;
 
@@ -267,5 +267,5 @@ STA $0307|!Base2,y	;
 
 LDA #$01		;
 LDY #$02		;
-JSL $01B7B3	;
+JSL $01B7B3|!bank	;
 RTS
