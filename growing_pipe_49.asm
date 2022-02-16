@@ -153,7 +153,34 @@ JSL $01801A		; update sprite Y position
 
 SkipPositionUpdate:		;
 
+LDA $94
+PHA
 JSL $01B44F		; make the sprite solid
+
+LDA !7FAB10,x		;
+AND #!ExtraBit		;
+BEQ .no_hurt
+
+LDA $94
+SEC
+SBC $01,s ; did mario position change (by 01B530)
+BEQ .no_hurt
+
+BPL ++
+EOR #$FF
+INC
+++
+CMP #$05 ; did mario position change by more than 4 px
+BCC .no_hurt
+
+PLA
+STA $94
+JSL $00F606				; > Kill the player.
+RTS
+
+
+.no_hurt
+PLA
 
 RTS			;
 
